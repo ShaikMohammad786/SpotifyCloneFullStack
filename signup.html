@@ -1,0 +1,119 @@
+<!-- Just like login.html, only with a signup form -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spotify - Sign Up</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: linear-gradient( #232323,black);
+      font-family: 'Roboto', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-container {
+      background-color: #121212;
+      padding: 40px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 700px;
+      height:550px ;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .auth-container h2 {
+        margin-top: 5%;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: xx-large;
+    }
+
+    .auth-container input {
+      width: 350px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      margin-left: 25%;
+    }
+
+    .auth-container button {
+        width: 375px; 
+      padding: 18px;
+      background-color: #1fdf64;
+      border: none;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-left: 25%;
+    }
+
+    .auth-container p {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .auth-container a {
+      color: #1fdf64;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Sign up for Spotify</h2>
+    <form action="php\signup.php" method="POST" id="signup-form">
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="cpassword" placeholder="Confirm Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Log in</a></p>
+    <p id="message"></p>
+  </div>
+
+  
+
+<script>
+document.getElementById("signup-form").addEventListener("submit", function(e) {
+    e.preventDefault(); 
+
+    const formData = new FormData(this);
+
+    fetch("php/signup.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+        const message = document.getElementById("message");
+
+        if (data === "success") {
+            message.innerText = "Signup successful! Redirecting to login...";
+            message.style.color = "green";
+
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 2000);
+        } else if (data === "password_mismatch") {
+            message.innerText = "Passwords do not match!";
+            message.style.color = "red";
+        } else if (data === "email_exists") {
+            message.innerText = "Email already registered!";
+            message.style.color = "orange";
+        } else {
+            message.innerText = "Something went wrong!";
+            message.style.color = "red";
+        }
+    });
+});
+</script>
+</body>
+</html>

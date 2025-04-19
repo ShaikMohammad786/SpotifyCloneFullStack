@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify - Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: linear-gradient( #232323,black);
+      font-family: 'Roboto', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-container {
+      background-color: #121212;
+      padding: 40px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 700px;
+      height:500px ;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .auth-container h2 {
+        margin-top: 15%;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: xx-large;
+    }
+
+    .auth-container input {
+      width: 350px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      margin-left: 25%;
+    }
+
+    .auth-container button {
+        width: 375px; 
+      padding: 18px;
+      background-color: #1fdf64;
+      border: none;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-left: 25%;
+    }
+
+    .auth-container p {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .auth-container a {
+      color: #1fdf64;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Log in to Spotify</h2>
+    <form action="php\login.php" method="POST" id="login-form">
+      <input type="text" name="username" placeholder="Username or Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Log In</button>
+    </form>
+    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    <p id="message"></p>
+  </div>
+
+  <script>
+  document.getElementById("login-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+  
+      const formData = new FormData(this);
+  
+      fetch("php/login.php", {
+          method: "POST",
+          body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+          const message = document.getElementById("message");
+  
+          if (data === "success") {
+              message.innerText = "Login successful! Redirecting...";
+              message.style.color = "green";
+              setTimeout(() => {
+                  window.location.href = "/SpotifyResources/index.php";
+              }, 1000);
+          } else if (data === "invalid_password") {
+              message.innerText = "Invalid password!";
+              message.style.color = "red";
+          } else if (data === "user_not_found") {
+              message.innerText = "No account found with that username/email!";
+              message.style.color = "orange";
+          } else {
+              message.innerText = "Something went wrong!";
+              message.style.color = "red";
+          }
+      });
+  });
+  </script>
+</body>
+</html>
