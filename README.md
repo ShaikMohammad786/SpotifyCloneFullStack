@@ -5,6 +5,8 @@ An end-to-end **full-stack Spotify clone** built with **PHP + MySQL + JavaScript
 
 ---
 
+IMPORTANT NOTE : SONGS FOLDER IS NOT UPLOADED MAKE SURE TO CREATE A SONGS FOLDER ADD SONGS AND YOUR SONGS MAY NOT MATCH WITH FILE NAME IN THE SQL MAKE SURE TO MODIFY THE FILE PATHS IN THE SQL FILE (i.e run fetch_songs.php file after adding the songs folder in the profect file it will automatically manage) 
+
 ## 🚀 Key Features
 
 - 🔐 **Login & Signup** (PHP + MySQL)
